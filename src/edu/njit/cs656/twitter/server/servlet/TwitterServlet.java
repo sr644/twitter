@@ -25,6 +25,8 @@ import edu.njit.cs656.twitter.server.dto.GetTweetsByUserIdRequest;
 import edu.njit.cs656.twitter.server.dto.GetTweetsByUserIdResponse;
 import edu.njit.cs656.twitter.server.dto.GetTweetsRequest;
 import edu.njit.cs656.twitter.server.dto.GetTweetsResponse;
+import edu.njit.cs656.twitter.server.dto.GetUserProfileRequest;
+import edu.njit.cs656.twitter.server.dto.GetUserProfileResponse;
 import edu.njit.cs656.twitter.server.dto.LoginRequest;
 import edu.njit.cs656.twitter.server.dto.LoginResponse;
 import edu.njit.cs656.twitter.server.dto.Request;
@@ -75,24 +77,24 @@ public class TwitterServlet extends HttpServlet {
 	 * Processes HTTP Post requests.
 	 * 
 	 * JSON is the expected data. Example:
-	 * 
-	 * -- login
-	 * 	-- Request
-	 * 		-- {"requestType":"login", "username":"sanjayrally", "password":"sanjayrallypw"}
-	 * 	-- Response
-	 * 		-- {"userId":1,"success":true}
-	 * 
-     * -- addTweet
-	 * 	-- Request
-	 * 		-- {"requestType":"addTweet", "userId":"1", "tweetData":"This is test data 071814-1"}
-	 * 	-- Response
-	 * 		-- {"success":true,"errorMessage":""}
-	 * 
-	 * -- getTrendingTweets
- 	 * 	-- Request
-	 * 		-- {"requestType":"getTrendingTweets"}
-	 * 	-- Response
-	 * 		-- {
+	 	  
+	  -- login
+	  	-- Request
+	  		-- {"requestType":"login", "username":"sanjayrally", "password":"sanjayrallypw"}
+	  	-- Response
+	  		-- {"userId":1,"success":true}
+	  
+      -- addTweet
+	  	-- Request
+	  		-- {"requestType":"addTweet", "userId":"1", "tweetData":"This is test data 071814-1"}
+	  	-- Response
+	  		-- {"success":true,"errorMessage":""}
+	  
+	  -- getTrendingTweets
+ 	  	-- Request
+	  		-- {"requestType":"getTrendingTweets"}
+	  	-- Response
+	  		-- {
 				   	"tweetList":    [
 				            {
 				         "userName": "nfl",
@@ -109,12 +111,12 @@ public class TwitterServlet extends HttpServlet {
 				   ],
 				   "success": true
 				}
-	 * 
-	 * -- getTweetsByUserId
- 	 * 	-- Request
-	 * 		-- {"requestType":"getTweetsByUserId", "userId":"1"}
-	 * 	-- Response
-	 * 		-- {
+	  
+	  -- getTweetsByUserId
+ 	  	-- Request
+	  		-- {"requestType":"getTweetsByUserId", "userId":"1"}
+	  	-- Response
+	  		-- {
 				   	"tweetList":    [
 				            {
 				         "userName": "nfl",
@@ -131,12 +133,36 @@ public class TwitterServlet extends HttpServlet {
 				   ],
 				   "success": true
 				}
-	 *
-	 * -- Invalid Request
-	 * 	-- Request
-	 * 		-- {"requestType":"Test", "username":"sanjayrally", "password":"sanjayrallypw"}
-	 * 	-- Response
-	 * 		-- {"success":false,"errorMessage":"Request Type not supported: Test"}
+				
+	  -- getUserProfile
+ 	  	-- Request
+	  		-- {"requestType":"getUserProfile", "userId":"1"}
+	  	-- Response
+	  		-- {
+				   	"tweetList":    [
+				            {
+				         "userName": "nfl",
+				         "dateAdded": "Jul 19, 2014 10:45:32 PM",
+				         "data": "Vikings suspend special teams coach Priefer",
+				         "trendingFlag": true
+				      },
+				            {
+				         "userName": "nfl",
+				         "dateAdded": "Jul 19, 2014 10:45:34 PM",
+				         "data": "Godell floats 49ers' pad as Raiders option",
+				         "trendingFlag": true
+				      },            
+				   ],
+				   "success": true
+				}
+	 
+	  -- Invalid Request
+	  	-- Request
+	  		-- {"requestType":"Test", "username":"sanjayrally", "password":"sanjayrallypw"}
+	  	-- Response
+	 		-- {"success":false,"errorMessage":"Request Type not supported: Test"}
+	 		
+	 		
 	 *  
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
@@ -167,6 +193,10 @@ public class TwitterServlet extends HttpServlet {
 				GetTweetsByUserIdRequest getTweetsByUserIdRequest = gson.fromJson(jsonStr, GetTweetsByUserIdRequest.class);
 				GetTweetsByUserIdResponse getTweetsByUserIdResponse = getTweetsByUserIdRequest.validate();
 				jsonResponseStr = gson.toJson(getTweetsByUserIdResponse);
+			} else if(Request.REQUEST_TYPE_GET_USER_PROFILE.equals(request.getRequestType())) {		
+				GetUserProfileRequest getUserProfileRequest = gson.fromJson(jsonStr, GetUserProfileRequest.class);
+				GetUserProfileResponse getUserProfileResponse = getUserProfileRequest.validate();
+				jsonResponseStr = gson.toJson(getUserProfileResponse);
 			} else {
 				jsonResponseStr = getErrorResponseJsonString("Request Type not supported: " + request.getRequestType(), gson);
 			}

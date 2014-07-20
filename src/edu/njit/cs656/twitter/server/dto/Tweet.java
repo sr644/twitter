@@ -7,7 +7,7 @@ public class Tweet {
 	private Date dateAdded;
 	private String data;
 	private boolean trendingFlag;
-	private String userInfo;
+	private String userDescription;
 	
 	public String getUserName() {return userName;}
 	public void setUserName(String userName) {this.userName = userName;}
@@ -17,6 +17,6 @@ public class Tweet {
 	public void setData(String data) {this.data = data;}
 	public boolean isTrendingFlag() {return trendingFlag;}
 	public void setTrendingFlag(boolean trendingFlag) {this.trendingFlag = trendingFlag;}
-	public String getUserInfo() {return userInfo;}
-	public void setUserInfo(String userInfo) {this.userInfo = userInfo;}	
+	public String getUserDescription() {return userDescription;}
+	public void setUserDescription(String userDescription) {this.userDescription = userDescription;}	
 }

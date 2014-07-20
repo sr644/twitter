@@ -81,11 +81,10 @@ public class AddTweetRequest extends Request {
 	}
 
 	private Response validateTweetData() {
-		if(StringUtil.isEmptyString(tweetData)) {
+		if(StringUtil.isEmptyString(tweetData) || tweetData.length() > 140) {
 			return Response.getErrorResponse("Invalid tweetData: " + null);
 		} else {			
 			try {
-				// Check in db
 				if(secUserIdExistInDb()) {
 					return Response.RESPONSE_SUCCESS;
 				} else {

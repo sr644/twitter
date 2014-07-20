@@ -75,14 +75,14 @@ public class GetTrendingTweetsRequest extends Request {
 			return getTrendingTweetsResponse;
 		} catch (SQLException e) {
 			GetTrendingTweetsResponse getTrendingTweetsResponse = new GetTrendingTweetsResponse();
-			getTrendingTweetsResponse.setSuccess(true);
+			getTrendingTweetsResponse.setSuccess(false);
 			getTrendingTweetsResponse.setErrorMessage("Error getting tweets from database: " + e.getMessage());
 			return getTrendingTweetsResponse;
 		}
 	}
 		
 	private static final String GET_TRENDING_TWEETS_SQL = 	" select " +
-															"   u.username, u.user_info, t.date_added, t.data " + 
+															"   u.username, u.user_description, t.date_added, t.data " + 
 															" from " + 
 															"   sec_user u, tweet t  " + 
 															" where " + 
@@ -114,7 +114,7 @@ public class GetTrendingTweetsRequest extends Request {
 				tweet.setUserName(result.getString("username"));
 				tweet.setDateAdded(result.getTimestamp("date_added") == null ? null : new java.util.Date(result.getTimestamp("date_added").getTime()));
 				tweet.setData(result.getString("data"));
-				tweet.setUserInfo(result.getString("user_info"));
+				tweet.setUserDescription(result.getString("user_description"));
 				tweet.setTrendingFlag(true);
 			}
 			return tweetList;

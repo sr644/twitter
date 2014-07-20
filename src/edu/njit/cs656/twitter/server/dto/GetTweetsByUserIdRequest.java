@@ -44,6 +44,9 @@ public class GetTweetsByUserIdRequest extends Request {
     * ====================================================================
     */	
 	public GetTweetsByUserIdResponse validate() {
+		GetTweetsByUserIdResponse getTweetsByUserIdResponse = validateUserId();
+		if(!getTweetsByUserIdResponse.isSuccess()){return getTweetsByUserIdResponse;} else {} // userId validated successfully
+		
 		return getTweetsByUserId();
 	}	
 	
@@ -69,6 +72,19 @@ public class GetTweetsByUserIdRequest extends Request {
     * Private Methods
     * ====================================================================
     */
+	private GetTweetsByUserIdResponse validateUserId() {
+		if(userId <= 0) {
+			GetTweetsByUserIdResponse getTweetsByUserIdResponse = new GetTweetsByUserIdResponse();
+			getTweetsByUserIdResponse.setSuccess(false);
+			getTweetsByUserIdResponse.setErrorMessage("Invalid userId: " + userId);
+			return getTweetsByUserIdResponse;
+		} else {
+			GetTweetsByUserIdResponse getTweetsByUserIdResponse = new GetTweetsByUserIdResponse();
+			getTweetsByUserIdResponse.setSuccess(true);
+			return getTweetsByUserIdResponse; 
+		}
+	}
+	
 	private GetTweetsByUserIdResponse getTweetsByUserId() {
 		try {
 			GetTweetsByUserIdResponse getTweetsByUserIdResponse = new GetTweetsByUserIdResponse();
@@ -77,14 +93,14 @@ public class GetTweetsByUserIdRequest extends Request {
 			return getTweetsByUserIdResponse;
 		} catch (SQLException e) {
 			GetTweetsByUserIdResponse getTweetsByUserIdResponse = new GetTweetsByUserIdResponse();
-			getTweetsByUserIdResponse.setSuccess(true);
+			getTweetsByUserIdResponse.setSuccess(false);
 			getTweetsByUserIdResponse.setErrorMessage("Error getting tweets from database: " + e.getMessage());
 			return getTweetsByUserIdResponse;
 		}
 	}
 		
 	private static final String GET_TWEETS_BY_USER_ID_SQL = 	" select " +
-																"   u.username, u.user_info, t.date_added, t.data, t.trending_flag " + 
+																"   u.username, u.user_description, t.date_added, t.data, t.trending_flag " + 
 																" from " + 
 																"   sec_user u, tweet t  " + 
 																" where " + 
@@ -119,7 +135,7 @@ public class GetTweetsByUserIdRequest extends Request {
 				tweet.setDateAdded(result.getTimestamp("date_added") == null ? null : new java.util.Date(result.getTimestamp("date_added").getTime()));
 				tweet.setData(result.getString("data"));
 				tweet.setTrendingFlag(result.getBoolean("trending_flag"));
-				tweet.setUserInfo(result.getString("user_info"));
+				tweet.setUserDescription(result.getString("user_description"));
 			}
 			return tweetList;
 		} finally {
