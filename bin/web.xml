@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5">
+  <display-name>Twitter backend web app</display-name>
+  
+  <servlet>
+    <servlet-name>TwitterServlet</servlet-name>
+    <servlet-class>edu.njit.cs656.twitter.server.servlet.TwitterServlet</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>TwitterServlet</servlet-name>
+    <url-pattern>/TwitterServlet</url-pattern>
+  </servlet-mapping>
+    
+</web-app>
+
+
+
+
+
+
+
+
+
+
+
+

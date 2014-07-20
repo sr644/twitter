@@ -21,6 +21,8 @@ import com.google.gson.GsonBuilder;
 import edu.njit.cs656.twitter.server.dto.AddTweetRequest;
 import edu.njit.cs656.twitter.server.dto.GetTrendingTweetsRequest;
 import edu.njit.cs656.twitter.server.dto.GetTrendingTweetsResponse;
+import edu.njit.cs656.twitter.server.dto.GetTweetsByUserIdRequest;
+import edu.njit.cs656.twitter.server.dto.GetTweetsByUserIdResponse;
 import edu.njit.cs656.twitter.server.dto.GetTweetsRequest;
 import edu.njit.cs656.twitter.server.dto.GetTweetsResponse;
 import edu.njit.cs656.twitter.server.dto.LoginRequest;
@@ -80,12 +82,6 @@ public class TwitterServlet extends HttpServlet {
 	 * 	-- Response
 	 * 		-- {"userId":1,"success":true}
 	 * 
-	 * -- getTweets
-	 * 	-- Request
-	 * 		-- {"requestType":"getTweets", "secUserId":"1"}
-	 * 	-- Response
-	 * 		-- {"sessionId":99,"success":true}
-     *
      * -- addTweet
 	 * 	-- Request
 	 * 		-- {"requestType":"addTweet", "userId":"1", "tweetData":"This is test data 071814-1"}
@@ -116,10 +112,26 @@ public class TwitterServlet extends HttpServlet {
 	 * 
 	 * -- getTweetsByUserId
  	 * 	-- Request
-	 * 		-- {"requestType":"getTweetsByUserId"}
+	 * 		-- {"requestType":"getTweetsByUserId", "userId":"1"}
 	 * 	-- Response
-	 * 		-- {"success":true,"errorMessage":""}
-     *
+	 * 		-- {
+				   	"tweetList":    [
+				            {
+				         "userName": "nfl",
+				         "dateAdded": "Jul 19, 2014 10:45:32 PM",
+				         "data": "Vikings suspend special teams coach Priefer",
+				         "trendingFlag": true
+				      },
+				            {
+				         "userName": "nfl",
+				         "dateAdded": "Jul 19, 2014 10:45:34 PM",
+				         "data": "Godell floats 49ers' pad as Raiders option",
+				         "trendingFlag": true
+				      },            
+				   ],
+				   "success": true
+				}
+	 *
 	 * -- Invalid Request
 	 * 	-- Request
 	 * 		-- {"requestType":"Test", "username":"sanjayrally", "password":"sanjayrallypw"}
@@ -151,6 +163,10 @@ public class TwitterServlet extends HttpServlet {
 				GetTrendingTweetsRequest getTrendingTweetsRequest = gson.fromJson(jsonStr, GetTrendingTweetsRequest.class);
 				GetTrendingTweetsResponse getTrendingTweetsResponse = getTrendingTweetsRequest.validate();
 				jsonResponseStr = gson.toJson(getTrendingTweetsResponse);
+			} else if(Request.REQUEST_TYPE_GET_TWEETS_BY_USER_ID.equals(request.getRequestType())) {		
+				GetTweetsByUserIdRequest getTweetsByUserIdRequest = gson.fromJson(jsonStr, GetTweetsByUserIdRequest.class);
+				GetTweetsByUserIdResponse getTweetsByUserIdResponse = getTweetsByUserIdRequest.validate();
+				jsonResponseStr = gson.toJson(getTweetsByUserIdResponse);
 			} else {
 				jsonResponseStr = getErrorResponseJsonString("Request Type not supported: " + request.getRequestType(), gson);
 			}
