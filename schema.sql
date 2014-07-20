@@ -56,8 +56,14 @@ insert into user_followed(sec_user_id, sec_user_followed_id) values(1, 4);
 insert into user_followed(sec_user_id, sec_user_followed_id) values(1, 5);
 insert into user_followed(sec_user_id, sec_user_followed_id) values(1, 6);
 insert into user_followed(sec_user_id, sec_user_followed_id) values(1, 7);
+
 insert into user_followed(sec_user_id, sec_user_followed_id) values(2, 1);
+insert into user_followed(sec_user_id, sec_user_followed_id) values(2, 4);
+insert into user_followed(sec_user_id, sec_user_followed_id) values(2, 5);
+
 insert into user_followed(sec_user_id, sec_user_followed_id) values(3, 1);
+insert into user_followed(sec_user_id, sec_user_followed_id) values(3, 6);
+insert into user_followed(sec_user_id, sec_user_followed_id) values(3, 7);
 
 
 
