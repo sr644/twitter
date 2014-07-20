@@ -52,6 +52,7 @@
 	    <copy file="${lib.home}/gson-2.2.4.jar" todir="${build.webinf.lib.dir}"/>	    
 	    <copy file="${lib.home}/mysql-connector-java-5.1.31-bin.jar" todir="${build.webinf.lib.dir}"/>
 		<jar jarfile="${system.TOMCAT_HOME}/webapps/twitter.war" basedir="${build.dir}"/>		
+		<copy file="${system.TOMCAT_HOME}/webapps/twitter.war" todir="/home/sanjayrally/aws/"/>
 	</target>
 		
 </project>

@@ -3,12 +3,18 @@ package edu.njit.cs656.twitter.server.dto;
 import java.util.Date;
 
 public class Tweet {
-	private Date tweetDate;
-	private String tweet;
+	private String userName;
+	private Date dateAdded;
+	private String data;
+	private boolean trendingFlag;
 	
-	public Date getTweetDate() {return tweetDate;}
-	public void setTweetDate(Date tweetDate) {this.tweetDate = tweetDate;}
-	public String getTweet() {return tweet;}
-	public void setTweet(String tweet) {this.tweet = tweet;}
+	public String getUserName() {return userName;}
+	public void setUserName(String userName) {this.userName = userName;}
+	public Date getDateAdded() {return dateAdded;}
+	public void setDateAdded(Date dateAdded) {this.dateAdded = dateAdded;}
+	public String getData() {return data;}
+	public void setData(String data) {this.data = data;}
+	public boolean isTrendingFlag() {return trendingFlag;}
+	public void setTrendingFlag(boolean trendingFlag) {this.trendingFlag = trendingFlag;}
 		
 }

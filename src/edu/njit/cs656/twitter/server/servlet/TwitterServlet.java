@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.njit.cs656.twitter.server.dto.AddTweetRequest;
+import edu.njit.cs656.twitter.server.dto.GetTrendingTweetsRequest;
+import edu.njit.cs656.twitter.server.dto.GetTrendingTweetsResponse;
 import edu.njit.cs656.twitter.server.dto.GetTweetsRequest;
 import edu.njit.cs656.twitter.server.dto.GetTweetsResponse;
 import edu.njit.cs656.twitter.server.dto.LoginRequest;
@@ -89,6 +91,34 @@ public class TwitterServlet extends HttpServlet {
 	 * 		-- {"requestType":"addTweet", "userId":"1", "tweetData":"This is test data 071814-1"}
 	 * 	-- Response
 	 * 		-- {"success":true,"errorMessage":""}
+	 * 
+	 * -- getTrendingTweets
+ 	 * 	-- Request
+	 * 		-- {"requestType":"getTrendingTweets"}
+	 * 	-- Response
+	 * 		-- {
+				   	"tweetList":    [
+				            {
+				         "userName": "nfl",
+				         "dateAdded": "Jul 19, 2014 10:45:32 PM",
+				         "data": "Vikings suspend special teams coach Priefer",
+				         "trendingFlag": true
+				      },
+				            {
+				         "userName": "nfl",
+				         "dateAdded": "Jul 19, 2014 10:45:34 PM",
+				         "data": "Godell floats 49ers' pad as Raiders option",
+				         "trendingFlag": true
+				      },            
+				   ],
+				   "success": true
+				}
+	 * 
+	 * -- getTweetsByUserId
+ 	 * 	-- Request
+	 * 		-- {"requestType":"getTweetsByUserId"}
+	 * 	-- Response
+	 * 		-- {"success":true,"errorMessage":""}
      *
 	 * -- Invalid Request
 	 * 	-- Request
@@ -113,13 +143,14 @@ public class TwitterServlet extends HttpServlet {
 				LoginRequest loginRequest = gson.fromJson(jsonStr, LoginRequest.class);
 				LoginResponse loginResponse = loginRequest.validate();
 				jsonResponseStr = gson.toJson(loginResponse);
-			} else if(Request.REQUEST_TYPE_GET_TWEETS.equals(request.getRequestType())) {
-				GetTweetsResponse getTweetsResponse = processGetTweets(gson.fromJson(jsonStr, GetTweetsRequest.class));
-				jsonResponseStr = gson.toJson(getTweetsResponse);
 			} else if(Request.REQUEST_TYPE_ADD_TWEET.equals(request.getRequestType())) {		
 				AddTweetRequest addTweetRequest = gson.fromJson(jsonStr, AddTweetRequest.class);
 				Response response = addTweetRequest.validate();
 				jsonResponseStr = gson.toJson(response);
+			} else if(Request.REQUEST_TYPE_GET_TRENDING_TWEETS.equals(request.getRequestType())) {		
+				GetTrendingTweetsRequest getTrendingTweetsRequest = gson.fromJson(jsonStr, GetTrendingTweetsRequest.class);
+				GetTrendingTweetsResponse getTrendingTweetsResponse = getTrendingTweetsRequest.validate();
+				jsonResponseStr = gson.toJson(getTrendingTweetsResponse);
 			} else {
 				jsonResponseStr = getErrorResponseJsonString("Request Type not supported: " + request.getRequestType(), gson);
 			}
@@ -167,28 +198,6 @@ public class TwitterServlet extends HttpServlet {
 			return "";
 		}
 	}
-	
-	private GetTweetsResponse processGetTweets(GetTweetsRequest getTweetsRequest) {
-		try {
-			GetTweetsResponse getTweetsResponse = new GetTweetsResponse();
-			getTweetsResponse.setTestData("Test Data");
-			Tweet tweet;
-			List<Tweet> tweetList = new ArrayList<Tweet>();
-			tweet = new Tweet(); tweet.setTweet("tweet1"); tweetList.add(tweet);
-			tweet = new Tweet(); tweet.setTweet("tweet2"); tweetList.add(tweet);
-			getTweetsResponse.setTweets(tweetList);
-			
-			return getTweetsResponse;			
-		} catch (Exception e) {
-			e.printStackTrace();
-			LOGGER.warning("Errro looking up tweets in database: " + e.getMessage());
-			GetTweetsResponse getTweetsResponse = new GetTweetsResponse();
-			getTweetsResponse.setSuccess(false);
-			getTweetsResponse.setErrorMessage("Error looking up tweets in database: " + e.getMessage());
-			return getTweetsResponse;
-		}		
-	}
-
 	
 	private String getErrorResponseJsonString(String errorMessage, Gson gson) {
 		Response response = new Response();
