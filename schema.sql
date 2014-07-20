@@ -10,16 +10,17 @@ create table sec_user (
 	sec_user_id int not null auto_increment,	
 	username varchar(50) not null, 
 	password varchar(50) not null,
+	user_info varchar(200) not null,
 	primary key (sec_user_id)
 );
 
-insert into sec_user(username, password) values('sanjayrally', 'sanjayrallypw');
-insert into sec_user(username, password) values('leomoreyn', 'leomoreynpw');
-insert into sec_user(username, password) values('sarahwest', 'sarahwestpw');
-insert into sec_user(username, password) values('nba', 'nbapw');
-insert into sec_user(username, password) values('nfl', 'nflpw');
-insert into sec_user(username, password) values('mlb', 'mlbpw');
-insert into sec_user(username, password) values('googlenews', 'googlenewspw');
+insert into sec_user(username, password, user_info) values('sanjayrally', 'sanjayrallypw', "Sanjay Rally');
+insert into sec_user(username, password, user_info) values('leomoreyn', 'leomoreynpw', 'Leo Moreyn');
+insert into sec_user(username, password, user_info) values('sarahwest', 'sarahwestpw', 'Sarah West');
+insert into sec_user(username, password, user_info) values('nba', 'nbapw', 'National Basketball Association');
+insert into sec_user(username, password, user_info) values('nfl', 'nflpw', 'National Football Association');
+insert into sec_user(username, password, user_info) values('mlb', 'mlbpw', 'Major League Baseball');
+insert into sec_user(username, password, user_info) values('googlenews', 'googlenewspw', 'Google News');
 
 -- tweet
 create table tweet (

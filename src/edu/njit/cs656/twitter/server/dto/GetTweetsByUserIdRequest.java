@@ -84,7 +84,7 @@ public class GetTweetsByUserIdRequest extends Request {
 	}
 		
 	private static final String GET_TWEETS_BY_USER_ID_SQL = 	" select " +
-																"   u.username, t.date_added, t.data, t.trending_flag " + 
+																"   u.username, u.user_info, t.date_added, t.data, t.trending_flag " + 
 																" from " + 
 																"   sec_user u, tweet t  " + 
 																" where " + 
@@ -119,6 +119,7 @@ public class GetTweetsByUserIdRequest extends Request {
 				tweet.setDateAdded(result.getTimestamp("date_added") == null ? null : new java.util.Date(result.getTimestamp("date_added").getTime()));
 				tweet.setData(result.getString("data"));
 				tweet.setTrendingFlag(result.getBoolean("trending_flag"));
+				tweet.setUserInfo(result.getString("user_info"));
 			}
 			return tweetList;
 		} finally {
