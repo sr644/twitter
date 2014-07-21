@@ -17,6 +17,7 @@
 	</path>
 				
 	<property name="src.dir" value="${basedir}/src" />
+	<property name="bin.dir" value="${basedir}/bin" />
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="build.webinf.dir" value="${build.dir}/WEB-INF" />
 	<property name="build.webinf.lib.dir" value="${build.webinf.dir}/lib" />
@@ -25,6 +26,7 @@
 	<!-- clean the build directory -->
 	<target name="clean" description="Cleanup all generated files">
 		<delete dir="${build.dir}" />
+		<delete dir="${bin.dir}" />
 	</target>
 
 	<target name="prepare">

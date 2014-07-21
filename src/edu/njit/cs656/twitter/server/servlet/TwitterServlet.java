@@ -31,6 +31,8 @@ import edu.njit.cs656.twitter.server.dto.LoginRequest;
 import edu.njit.cs656.twitter.server.dto.LoginResponse;
 import edu.njit.cs656.twitter.server.dto.Request;
 import edu.njit.cs656.twitter.server.dto.Response;
+import edu.njit.cs656.twitter.server.dto.SearchTweetRequest;
+import edu.njit.cs656.twitter.server.dto.SearchTweetResponse;
 import edu.njit.cs656.twitter.server.dto.Tweet;
 import edu.njit.cs656.twitter.server.util.StringUtil;
 
@@ -156,6 +158,28 @@ public class TwitterServlet extends HttpServlet {
 				   "success": true
 				}
 	 
+	  -- searchTweet
+ 	  	-- Request
+	  		-- {"requestType":"searchTweet", "searchString":"rebels"}
+	  	-- Response
+	  		-- {
+				   	"tweetList":    [
+				            {
+				         "userName": "nfl",
+				         "dateAdded": "Jul 19, 2014 10:45:32 PM",
+				         "data": "Vikings suspend special teams coach Priefer",
+				         "trendingFlag": true
+				      },
+				            {
+				         "userName": "nfl",
+				         "dateAdded": "Jul 19, 2014 10:45:34 PM",
+				         "data": "Godell floats 49ers' pad as Raiders option",
+				         "trendingFlag": true
+				      },            
+				   ],
+				   "success": true
+				}
+				
 	  -- Invalid Request
 	  	-- Request
 	  		-- {"requestType":"Test", "username":"sanjayrally", "password":"sanjayrallypw"}
@@ -197,6 +221,10 @@ public class TwitterServlet extends HttpServlet {
 				GetUserProfileRequest getUserProfileRequest = gson.fromJson(jsonStr, GetUserProfileRequest.class);
 				GetUserProfileResponse getUserProfileResponse = getUserProfileRequest.validate();
 				jsonResponseStr = gson.toJson(getUserProfileResponse);
+			} else if(Request.REQUEST_TYPE_SEARCH_TWEET.equals(request.getRequestType())) {		
+				SearchTweetRequest searchTweetRequest = gson.fromJson(jsonStr, SearchTweetRequest.class);
+				SearchTweetResponse searchTweetResponse = searchTweetRequest.validate();
+				jsonResponseStr = gson.toJson(searchTweetResponse);
 			} else {
 				jsonResponseStr = getErrorResponseJsonString("Request Type not supported: " + request.getRequestType(), gson);
 			}

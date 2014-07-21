@@ -6,6 +6,7 @@ public class Request {
 	public static final String REQUEST_TYPE_GET_TRENDING_TWEETS = "getTrendingTweets";
 	public static final String REQUEST_TYPE_GET_TWEETS_BY_USER_ID = "getTweetsByUserId";
 	public static final String REQUEST_TYPE_GET_USER_PROFILE = "getUserProfile";
+	public static final String REQUEST_TYPE_SEARCH_TWEET = "searchTweet";
 	
 	protected String requestType; 
 
